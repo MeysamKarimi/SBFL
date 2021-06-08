@@ -1,0 +1,456 @@
+USE version 6.0.0, Copyright (C) 1999-2021 University of Bremen
+use> compiling specification...
+done
+Model Buffers (2 classes, 1 association, 1 invariant, 4 operations, 7 pre-/postconditions, 1 state machine)
+use> TestCases.soil> -- ******************************* TEST CASE 1
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !new Element('e11')
+TestCases.soil> !b.capacity:=3
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !e11:=b.get();
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=0 and b.oclInState(Empty) and e1=e11), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','get()','Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> check
+checking structure...
+checked structure in 3ms.
+checking invariants...
+checking invariant (1) `Buffer::AtLeastOneCell': OK.
+checked 1 invariant in 0.006s, 0 failures.
+TestCases.soil> -- ******************************* TEST CASE 2
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !new Element('e11')
+TestCases.soil> !b.capacity:=1
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Full)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Full'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !e11:=b.get();
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=0 and b.oclInState(Empty) and e1=e11), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Full','get()','Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> check
+checking structure...
+checked structure in 0ms.
+checking invariants...
+checking invariant (1) `Buffer::AtLeastOneCell': OK.
+checked 1 invariant in 0.000s, 0 failures.
+TestCases.soil> -- ******************************* TEST CASE 3
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !new Element('e11')
+TestCases.soil> !new Element('e21')
+TestCases.soil> !new Element('e31')
+TestCases.soil> !b.capacity:=3
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e2);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=2 and b.oclInState(Normal)),  oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e3);
+Error: No valid transition after operation call `Buffer::put(self:b, p:e3)' for protocol state machine `Buffer::Buffer [self: b, current state: Normal]'. Possible transitions:
+[((self.capacity > 1) and (self.elements->size = (self.capacity - 1)))] put(p : Element)/
+    Target state invariant result: true
+[((self.capacity > 1) and (self.elements->size > 1))] put(p : Element)/
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=3 and b.oclInState(Full)),oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=false,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Normal','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+[Error] 1 precondition in operation call `Buffer::checkOk(self:b, ok:false)' does not hold:
+  pre1: ok
+    ok : Boolean = false
+
+  call stack at the time of evaluation:
+    1. Buffer::checkOk(self:b, ok:false) [caller: b.checkOk(resultado.ok)@<input>:1:0]
+
++------------------------------------------------------------------+
+| Evaluation is paused. You may inspect, but not modify the state. |
++------------------------------------------------------------------+
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !e11:=b.get();
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=2 and b.oclInState(Normal) and e1=e11), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> ?resultado
+<input>:1:0: Undefined variable `resultado'.
+TestCases.soil> !b.checkOk(resultado.ok)
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !e21:=b.get();
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal) and e2=e21), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> ?resultado
+<input>:1:0: Undefined variable `resultado'.
+TestCases.soil> !b.checkOk(resultado.ok)
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !e31:=b.get();
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=0 and b.oclInState(Empty) and e3=e31), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> ?resultado
+<input>:1:0: Undefined variable `resultado'.
+TestCases.soil> !b.checkOk(resultado.ok)
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> check
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> -- ******************************* TEST CASE 4
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> c
+Error: precondition false in operation call `Buffer::checkOk(self:b, ok:false)'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !b.capacity:=2
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> check
+checking structure...
+checked structure in 0ms.
+checking invariants...
+checking invariant (1) `Buffer::AtLeastOneCell': OK.
+checked 1 invariant in 0.000s, 0 failures.
+TestCases.soil> -- ******************************* TEST CASE 5
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !b.capacity:=1
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Full)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Full'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> check
+checking structure...
+checked structure in 3ms.
+checking invariants...
+checking invariant (1) `Buffer::AtLeastOneCell': OK.
+checked 1 invariant in 0.006s, 0 failures.
+TestCases.soil> -- ******************************* TEST CASE 6
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !new Element('e11')
+TestCases.soil> !new Element('e21')
+TestCases.soil> !new Element('e31')
+TestCases.soil> !b.capacity:=3
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e2);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=2 and b.oclInState(Normal)),  oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !e21:=b.get();
+Error: No valid transition available in protocol state machine `Buffer::Buffer [self: b, current state: Normal]' for operation call Buffer::get(self:b).
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal) and e1=e21), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=false,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Normal','get()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+[Error] 1 precondition in operation call `Buffer::checkOk(self:b, ok:false)' does not hold:
+  pre1: ok
+    ok : Boolean = false
+
+  call stack at the time of evaluation:
+    1. Buffer::checkOk(self:b, ok:false) [caller: b.checkOk(resultado.ok)@<input>:1:0]
+
++------------------------------------------------------------------+
+| Evaluation is paused. You may inspect, but not modify the state. |
++------------------------------------------------------------------+
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !e31:=b.get();
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=0 and b.oclInState(Empty) and e2=e31), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> ?resultado
+<input>:1:0: Undefined variable `resultado'.
+TestCases.soil> !b.checkOk(resultado.ok)
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> check
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> -- ******************************* TEST CASE 7
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> c
+Error: precondition false in operation call `Buffer::checkOk(self:b, ok:false)'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !b.capacity:=2
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e2);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=2 and b.oclInState(Full)),  oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Full'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> check
+checking structure...
+checked structure in 3ms.
+checking invariants...
+checking invariant (1) `Buffer::AtLeastOneCell': OK.
+checked 1 invariant in 0.007s, 0 failures.
+TestCases.soil> -- ******************************* TEST CASE 8
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !new Element('e11')
+TestCases.soil> !new Element('e21')
+TestCases.soil> !new Element('e31')
+TestCases.soil> !b.capacity:=2
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e2);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=2 and b.oclInState(Full)),  oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Full'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !e21:=b.get();
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal) and e1=e21), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Full','get()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> check
+checking structure...
+checked structure in 3ms.
+checking invariants...
+checking invariant (1) `Buffer::AtLeastOneCell': OK.
+checked 1 invariant in 0.000s, 0 failures.
+TestCases.soil> -- ******************************* TEST CASE 9
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !new Element('e11')
+TestCases.soil> !new Element('e21')
+TestCases.soil> !new Element('e31')
+TestCases.soil> !b.capacity:=2
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e2);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=2 and b.oclInState(Full)),  oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Full'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !e21:=b.get();
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal) and e1=e21), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Full','get()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !e31:=b.get();
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=0 and b.oclInState(Empty) and e2=e31), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Full','get()','Normal','get()','Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> check
+checking structure...
+checked structure in 3ms.
+checking invariants...
+checking invariant (1) `Buffer::AtLeastOneCell': OK.
+checked 1 invariant in 0.007s, 0 failures.
+TestCases.soil> -- ******************************* TEST CASE 10
+TestCases.soil> c
+Error: Unknown command `c'. Try `help'.
+TestCases.soil> reset
+TestCases.soil> !new Buffer('b')
+TestCases.soil> !new Element('e1')
+TestCases.soil> !new Element('e2')
+TestCases.soil> !new Element('e3')
+TestCases.soil> !new Element('e11')
+TestCases.soil> !new Element('e21')
+TestCases.soil> !new Element('e31')
+TestCases.soil> !b.capacity:=3
+TestCases.soil> !resultado:=Tuple{ok=true,oclStateTrace=Sequence{b.oclState}};
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e1);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal)), oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !b.put(e2);
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=2 and b.oclInState(Normal)),  oclStateTrace=resultado.oclStateTrace->append('put()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=true,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+TestCases.soil> !e21:=b.get();
+Error: No valid transition available in protocol state machine `Buffer::Buffer [self: b, current state: Normal]' for operation call Buffer::get(self:b).
+TestCases.soil> !resultado:=Tuple{ok=resultado.ok and (b.size()=1 and b.oclInState(Normal) and e1=e21), oclStateTrace=resultado.oclStateTrace->append('get()')->append(b.oclState)};  
+TestCases.soil> ?resultado
+-> Tuple{ok=false,oclStateTrace=Sequence{'Empty','put()','Normal','put()','Normal','get()','Normal'}} : Tuple(ok:Boolean,oclStateTrace:Sequence(String))
+TestCases.soil> !b.checkOk(resultado.ok)
+[Error] 1 precondition in operation call `Buffer::checkOk(self:b, ok:false)' does not hold:
+  pre1: ok
+    ok : Boolean = false
+
+  call stack at the time of evaluation:
+    1. Buffer::checkOk(self:b, ok:false) [caller: b.checkOk(resultado.ok)@<input>:1:0]
+
++------------------------------------------------------------------+
+| Evaluation is paused. You may inspect, but not modify the state. |
++------------------------------------------------------------------+
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> check
+
+Currently only commands starting with `?', `:', `help' or `info' are allowed.
+`c' continues the evaluation (i.e. unwinds the stack).
+
+TestCases.soil> 
+Error: precondition false in operation call `Buffer::checkOk(self:b, ok:false)'.
+TestCases.soil> 
+use> 
