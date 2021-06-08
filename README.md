@@ -13,7 +13,7 @@ This program was developed by *Java 11*
 ## Running the tests
 
 For running the program, ensure two types of input files exist in the ```mutants``` folder:
-1. *transitions.txt*: in this file, ```ORIGINAL TRANSITIONS``` and ```MUTANT TRANSITIONS:``` are defined. For instance, three transitions exist in a FSM in the following example, where  ```t2```,  ```t3``` and  ```t1``` are mutated respectively in different mutations:
+1. *transitions.txt*: in this file, ```ORIGINAL TRANSITIONS``` and ```MUTANT TRANSITIONS``` are defined. For instance, three transitions exist in a FSM in the following example, where  ```t2```,  ```t3``` and  ```t1``` are mutated respectively in different mutations:
     ```
     ORIGINAL_TRANSITIONS:
     t1,Empty->Normal{[self.capacity>1]put()}
@@ -30,7 +30,7 @@ For running the program, ensure two types of input files exist in the ```mutants
     ```
     
     * **Please note that** the input file must be defined in the above format. 
-     1. After the keyword ```ORIGINAL_TRANSITIONS:``` in first line, the transitions, each in a line without any space character, where the name and definition of the transition are separated by  ```:``` are defined.
+     1. After the keyword ```ORIGINAL_TRANSITIONS:``` in first line, the transitions, each in a line without any space character, where the name and definition of the transition are separated by  ```,``` are defined.
      2. ```***``` sign comes immediately after original transitions.
      3.  Keyword ```MUTANT_TRANSITIONS:``` comes to first to define the mutants. Mutant transitions for each mutation file are defined, each in a line without any space character, where the name and definition of the mutant are separated by ```:```.
      
@@ -38,7 +38,7 @@ For running the program, ensure two types of input files exist in the ```mutants
 
 ### Output
 
-The generated result will be saved in ```result.xls``` file in the root path of the project. The file contains ```N + 1``` excel sheets, where ```N``` is number of ```mutants``` and one is ```Exam Score```.
+The generated result will be saved in ```result.xls``` file in the root path of the project. The file contains ```N + 1``` excel sheets, where ```N``` indicates the number of ```mutants``` and one is for ```Exam Score```.
 
 Each ```mutant``` sheet contains *Error Vector* and *Exam Score* summary for each mutant and the ```Exam Score``` sheet contains summary of all mutants' exam scores.
 
